@@ -10,7 +10,7 @@ class TournamentsController < ApplicationController
   end
 
   def show
-    tournament = Tournament.find(params[:id])
+    Tournament.find(params[:id])
   end
 
   def statistics
