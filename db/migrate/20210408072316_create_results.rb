@@ -1,8 +1,6 @@
 class CreateResults < ActiveRecord::Migration[5.0]
   def up
     create_table :results do |t|
-      # t.integer "user_id"
-      # t.integer "tournament_id"
       t.json "answers"
     end
 
