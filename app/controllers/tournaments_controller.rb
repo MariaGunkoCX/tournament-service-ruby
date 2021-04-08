@@ -10,4 +10,14 @@ class TournamentsController < ApplicationController
 
   def show
   end
+
+  def statistics
+  end 
+
+  def scores
+  end
+
+  def success
+  end
+
 end
