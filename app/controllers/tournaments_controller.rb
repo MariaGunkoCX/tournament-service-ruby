@@ -6,9 +6,16 @@ class TournamentsController < ApplicationController
   end
 
   def create
+    @company_name = params[:company_name]
+    @start_date = params[:start_date]
+    @end_date = params[:end_date]
+
+    @tournament = Tournament.new(:company_name => params[:company_name], :start_date => params[:start_date], :end_date => params[:end_date])
+    @tournament.save
   end
 
   def show
+    @tournament = Tournament.find(params[:id])
   end
 
   def statistics

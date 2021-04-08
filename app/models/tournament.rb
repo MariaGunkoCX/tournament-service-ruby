@@ -1,5 +1,5 @@
 class Tournament < ApplicationRecord
-    attr_accessor @company_name
-    attr_accessor @start_date
-    attr_accessor @end_date
+    validates_presence_of :company_name, :start_date, :end_date
+    validates_length_of :company_name, :maximum => 255
+    validates_uniqueness_of :company_name
 end
