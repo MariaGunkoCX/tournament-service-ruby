@@ -1,6 +1,6 @@
 module TournamentsHelper
 
-    def successPerQuestion(results)
+    def success_per_question(results)
         statistics = Array.new;
         questions = Array.new;
     
@@ -30,5 +30,5 @@ module TournamentsHelper
         return statistics
       
       end
-      
+
 end
