@@ -16,8 +16,9 @@ class TournamentsController < ApplicationController
         new_user = User.create!(first_name: result[:firstName], last_name: result[:lastName], email: result[:email])
         temp = Result.create!(user_id: new_user.id, tournament_id: new_tournament.id , answers: result[:answers])
       end
+      render json: { success: "New Tournament Created" }, status: :ok 
     rescue 
-      render json: "message: error occurred", status: :bad_request
+      render json: { error: "Internal Server Error" }, status: :internal_server_error
     end
   end
 
@@ -29,7 +30,7 @@ class TournamentsController < ApplicationController
       final_data["results"] = JSON.parse(answers.to_json)
       render json: final_data, status: :ok 
     rescue
-      render json: "message: error occurred", status: :bad_request
+      render json: { error: "Internal Server Error" }, status: :internal_server_error
     end
   end
 
@@ -45,7 +46,7 @@ class TournamentsController < ApplicationController
       statistics = success_per_question(results)
       render json: statistics, status: :ok 
     rescue
-      render json: "message: error occurred", status: :bad_request
+      render json: { error: "Internal Server Error" }, status: :internal_server_error
     end
   end
 
