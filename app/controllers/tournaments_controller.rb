@@ -1,3 +1,5 @@
+require 'json'
+
 class TournamentsController < ApplicationController
 
   skip_before_action :verify_authenticity_token
@@ -15,7 +17,11 @@ class TournamentsController < ApplicationController
   end
 
   def show
-    Tournament.find(params[:id])
+    current_tournament = Tournament.find(params[:id])
+    final_data = JSON.parse(current_tournament.to_json)
+    answers = Result.joins(:user).select("users.*,results.answers").where(results: {tournament_id: params[:id]})
+    final_data["results"] = JSON.parse(answers.to_json)
+    render json: final_data, status: :ok
   end
 
   def statistics
