@@ -40,9 +40,13 @@ class TournamentsController < ApplicationController
   end
 
   def success
-    results = Result.select("results.answers").where(tournament_id: params[:id])
-    statistics = successPerQuestion(results)
-    render json: statistics, status: :ok 
+    begin
+      results = Result.select("results.answers").where(tournament_id: params[:id])
+      statistics = successPerQuestion(results)
+      render json: statistics, status: :ok 
+    rescue
+      render json: "message: error occurred", status: :bad_request
+    end
   end
 
 end
