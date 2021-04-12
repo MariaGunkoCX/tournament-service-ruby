@@ -2,7 +2,6 @@ require 'json'
 
 class TournamentsController < ApplicationController
 
-  include TournamentsHelper
   skip_before_action :verify_authenticity_token
 
   def index
@@ -43,7 +42,7 @@ class TournamentsController < ApplicationController
   def success
     begin
       results = Result.select(:answers).where(tournament_id: params[:id])
-      statistics = success_per_question(results)
+      statistics = StatisticsCalculator.success_per_question(results)
       render json: statistics, status: :ok 
     rescue
       render json: { error: "Internal Server Error" }, status: :internal_server_error
