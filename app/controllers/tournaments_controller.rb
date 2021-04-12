@@ -16,8 +16,8 @@ class TournamentsController < ApplicationController
         temp = Result.create!(user_id: new_user.id, tournament_id: new_tournament.id , answers: result[:answers])
       end
       render json: { success: "New Tournament Created" }, status: :ok 
-    rescue 
-      render json: { error: "Internal Server Error" }, status: :internal_server_error
+    rescue ActiveRecord::RecordInvalid => invalid
+      render json: {error: "Failed to create a new tournament, with error: #{invalid.record.errors.full_messages} - #{invalid.record.errors.details}"}, status: :internal_server_error
     end
   end
 
