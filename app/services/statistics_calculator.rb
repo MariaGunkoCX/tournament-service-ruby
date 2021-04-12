@@ -12,6 +12,8 @@ class StatisticsCalculator
 
         end
 
+        private 
+        
         def count_correct_answers_in_result(result_answers, questions)
             for index in 1..10 do
                 if (result_answers[index.to_s])
