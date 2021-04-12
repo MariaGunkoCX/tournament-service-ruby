@@ -24,16 +24,16 @@ class TournamentsController < ApplicationController
   end
 
   def show
-    unless Tournament.exists?(params[:id])
-      render json: { error: "Tournament Not Found" }, status: :not_found
-    else
-      begin
-        tournament = Tournament.find(params[:id])
-        render json: tournament, serializer: TournamentSerializer     
-      rescue Exception => e
-        Rails.logger.error("Error Getting Tournament Information, with error: #{e.message}")
-        render json: { error: "Internal Server Error" }, status: :internal_server_error
+    begin
+      tournament = Tournament.find_by(id: params[:id])
+      if tournament.blank?
+        render json: { error: "Tournament Not Found" }, status: :not_found
+        return
       end
+      render json: tournament, serializer: TournamentSerializer     
+    rescue StandardError => e
+      Rails.logger.error("Error Getting Tournament Information, with error: #{e.message}")
+      render json: { error: "Internal Server Error" }, status: :internal_server_error
     end
   end
 
@@ -44,18 +44,19 @@ class TournamentsController < ApplicationController
   end
 
   def success
-    unless Tournament.exists?(params[:id])
-      render json: { error: "Tournament Not Found" }, status: :not_found
-    else
       begin
-        results = Result.select(:answers).where(tournament_id: params[:id])
-        statistics = StatisticsCalculator.success_per_question(results)
+        tournament = Tournament.find_by(id: params[:id])
+        if tournament.blank?
+          render json: { error: "Tournament Not Found" }, status: :not_found
+          return
+        end
+        statistics = StatisticsCalculator.success_per_question(tournament.results)
         render json: statistics, status: :ok 
-      rescue Exception => e
+      rescue StandardError => e
         Rails.logger.error("Error Getting Success Per Question Statistics, with error: #{e.message}")
         render json: { error: "Internal Server Error" }, status: :internal_server_error
       end
-    end
+    # end
   end
 
 end
