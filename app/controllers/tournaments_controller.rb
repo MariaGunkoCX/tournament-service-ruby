@@ -31,7 +31,8 @@ class TournamentsController < ApplicationController
         answers = Result.joins(:user).select(:first_name, :last_name, :email, :answers).where(results: {tournament_id: params[:id]})
         final_data["results"] = JSON.parse(answers.to_json)
         render json: final_data, status: :ok 
-      rescue
+      rescue Exception => e
+        Rails.logger.error("Error Getting Tournament Information, with error: #{e.message}")
         render json: { error: "Internal Server Error" }, status: :internal_server_error
       end
     end
@@ -51,7 +52,8 @@ class TournamentsController < ApplicationController
         results = Result.select(:answers).where(tournament_id: params[:id])
         statistics = StatisticsCalculator.success_per_question(results)
         render json: statistics, status: :ok 
-      rescue
+      rescue Exception => e
+        Rails.logger.error("Error Getting Success Per Question Statistics, with error: #{e.message}")
         render json: { error: "Internal Server Error" }, status: :internal_server_error
       end
     end
