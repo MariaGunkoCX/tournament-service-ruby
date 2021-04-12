@@ -2,13 +2,8 @@ module TournamentsHelper
 
     def success_per_question(results)
         statistics = Array.new;
-        questions = Array.new;
-    
-        # initialize empty array
-        for index in 0..9 do
-          questions[index] = 0;
-        end
-    
+        questions = Array.new(10,0);
+        
         results.each do |result|
           # count all true questions
           for index in 1..10 do
@@ -20,14 +15,14 @@ module TournamentsHelper
     
         # create statistics object
         for index in 1..10 do
-          singleQuestion = {
+          single_question = {
             question: index.to_s,
             percentage: (questions[index-1]/results.length()*100).to_s + "%"
           }
-          statistics.append(singleQuestion)
+          statistics << single_question
         end
     
-        return statistics
+        statistics
       
       end
 
