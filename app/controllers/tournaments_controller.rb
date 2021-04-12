@@ -44,12 +44,16 @@ class TournamentsController < ApplicationController
   end
 
   def success
-    begin
-      results = Result.select(:answers).where(tournament_id: params[:id])
-      statistics = StatisticsCalculator.success_per_question(results)
-      render json: statistics, status: :ok 
-    rescue
-      render json: { error: "Internal Server Error" }, status: :internal_server_error
+    unless Tournament.exists?(params[:id])
+      render json: { error: "Tournament Not Found" }, status: :not_found
+    else
+      begin
+        results = Result.select(:answers).where(tournament_id: params[:id])
+        statistics = StatisticsCalculator.success_per_question(results)
+        render json: statistics, status: :ok 
+      rescue
+        render json: { error: "Internal Server Error" }, status: :internal_server_error
+      end
     end
   end
 
