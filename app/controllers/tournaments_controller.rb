@@ -22,14 +22,18 @@ class TournamentsController < ApplicationController
   end
 
   def show
-    begin
-      current_tournament = Tournament.find(params[:id])
-      final_data = JSON.parse(current_tournament.to_json)
-      answers = Result.joins(:user).select("users.*,results.answers").where(results: {tournament_id: params[:id]})
-      final_data["results"] = JSON.parse(answers.to_json)
-      render json: final_data, status: :ok 
-    rescue
-      render json: { error: "Internal Server Error" }, status: :internal_server_error
+    unless Tournament.exists?(params[:id])
+      render json: { error: "Tournament Not Found" }, status: :not_found
+    else
+      begin
+        current_tournament = Tournament.find(params[:id])
+        final_data = JSON.parse(current_tournament.to_json)
+        answers = Result.joins(:user).select("users.*,results.answers").where(results: {tournament_id: params[:id]})
+        final_data["results"] = JSON.parse(answers.to_json)
+        render json: final_data, status: :ok 
+      rescue
+        render json: { error: "Internal Server Error" }, status: :internal_server_error
+      end
     end
   end
 
