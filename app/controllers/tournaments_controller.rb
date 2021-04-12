@@ -28,7 +28,7 @@ class TournamentsController < ApplicationController
       begin
         current_tournament = Tournament.find(params[:id])
         final_data = JSON.parse(current_tournament.to_json)
-        answers = Result.joins(:user).select("users.*,results.answers").where(results: {tournament_id: params[:id]})
+        answers = Result.joins(:user).select(:first_name, :last_name, :email, :answers).where(results: {tournament_id: params[:id]})
         final_data["results"] = JSON.parse(answers.to_json)
         render json: final_data, status: :ok 
       rescue
