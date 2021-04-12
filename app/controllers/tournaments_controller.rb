@@ -26,11 +26,8 @@ class TournamentsController < ApplicationController
       render json: { error: "Tournament Not Found" }, status: :not_found
     else
       begin
-        current_tournament = Tournament.find(params[:id])
-        final_data = JSON.parse(current_tournament.to_json)
-        answers = Result.joins(:user).select(:first_name, :last_name, :email, :answers).where(results: {tournament_id: params[:id]})
-        final_data["results"] = JSON.parse(answers.to_json)
-        render json: final_data, status: :ok 
+        tournament = Tournament.find(params[:id])
+        render json: tournament, serializer: TournamentSerializer     
       rescue Exception => e
         Rails.logger.error("Error Getting Tournament Information, with error: #{e.message}")
         render json: { error: "Internal Server Error" }, status: :internal_server_error

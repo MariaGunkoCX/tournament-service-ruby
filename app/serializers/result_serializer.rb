@@ -1,3 +1,8 @@
 class ResultSerializer < ActiveModel::Serializer
-  attributes :tournament_id, :user_id, :answers
+  attributes :answers, :user
+
+  def user
+    UserSerializer.new(object.user).as_json
+  end
+
 end
