@@ -3,9 +3,9 @@ module TournamentsHelper
     def tournament_not_found(tournament)
         if tournament.blank?
             render json: { error: "Tournament Not Found" }, status: :not_found
-            return false
+            false
         else
-            return true
+            true
         end
     end
 
