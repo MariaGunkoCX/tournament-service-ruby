@@ -1,5 +1,11 @@
 class StatisticsCalculator
 
+    module Score
+        A = 90
+        B = 75
+        C = 60
+    end
+
     class << self 
 
         def success_per_question(results)
@@ -60,11 +66,11 @@ class StatisticsCalculator
         end
 
         def claculate_score(count)
-            if count > 90
+            if count > Score::A
                 return 'A'
-            elsif count > 75
+            elsif count > Score::B
                 return 'B'
-            elsif count >= 60
+            elsif count >= Score::C
                 return 'C'
             else 
                 return 'F'
