@@ -2,6 +2,7 @@ require 'json'
 
 class TournamentsController < ApplicationController
 
+  include TournamentsHelper
   skip_before_action :verify_authenticity_token
 
   def index
@@ -25,11 +26,9 @@ class TournamentsController < ApplicationController
 
   def show
     tournament = Tournament.find_by(id: params[:id])
-    if tournament.blank?
-      render json: { error: "Tournament Not Found" }, status: :not_found
-      return
-    end
-    render json: tournament, serializer: TournamentSerializer     
+    if tournament_not_found(tournament)
+      render json: tournament, serializer: TournamentSerializer   
+    end  
   end
 
   def statistics
@@ -40,12 +39,10 @@ class TournamentsController < ApplicationController
 
   def success
     tournament = Tournament.includes(:results).find_by(id: params[:id])
-    if tournament.blank?
-      render json: { error: "Tournament Not Found" }, status: :not_found
-      return
+    if tournament_not_found(tournament)
+      statistics = StatisticsCalculator.success_per_question(tournament.results)
+      render json: statistics, status: :ok 
     end
-    statistics = StatisticsCalculator.success_per_question(tournament.results)
-    render json: statistics, status: :ok 
   end
 
 end
