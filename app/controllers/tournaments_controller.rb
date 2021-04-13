@@ -31,6 +31,11 @@ class TournamentsController < ApplicationController
   end 
 
   def scores
+    tournament = Tournament.includes(:results).find_by(id: params[:id])
+    if tournament_not_found(tournament)
+      statistics = StatisticsCalculator.user_score(tournament.results)
+      render json: statistics, status: :ok 
+    end
   end
 
   def success

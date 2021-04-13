@@ -12,6 +12,12 @@ class StatisticsCalculator
 
         end
 
+        def user_score(results)
+            statistics = Array.new;
+            results.each {|result| count_correct_answers_for_user(result.answers, result.user, statistics)}
+            statistics
+        end
+
         private 
         
         def count_correct_answers_in_result(result_answers, questions)
@@ -29,6 +35,39 @@ class StatisticsCalculator
                     percentage: (questions[index-1]/results_length*100).to_s + "%"
                 }
                 statistics << single_question
+            end
+        end
+
+        def count_correct_answers_for_user(result_answers, result_user, statistics)
+            count = 0
+            print(result_answers)
+            print(result_user)
+            for index in 1..10 do
+                if (result_answers[index.to_s])
+                    count += 1
+                end
+            end
+            score = claculate_score(count*10)
+            set_final_score_for_user(result_user, score, statistics)
+        end
+
+        def set_final_score_for_user(user, score, statistics)
+            single_user = {
+                user: user.email,
+                score: score              
+            }
+            statistics << single_user
+        end
+
+        def claculate_score(count)
+            if count > 90
+                return 'A'
+            elsif count > 75
+                return 'B'
+            elsif count >= 60
+                return 'C'
+            else 
+                return 'F'
             end
         end
 
