@@ -50,14 +50,12 @@ class StatisticsCalculator
 
         def count_correct_answers_for_user(result_answers, result_user, statistics)
             count = 0
-            print(result_answers)
-            print(result_user)
             for index in 1..Constants::NUMBER_OF_QUESTIONS do
                 if (result_answers[index.to_s])
                     count += 1
                 end
             end
-            score = claculate_score(count.to_f/Constants::NUMBER_OF_QUESTIONS*Constants::FULL_PERCENTAGE)
+            score = calculate_score(count.to_f/Constants::NUMBER_OF_QUESTIONS*Constants::FULL_PERCENTAGE)
             set_final_score_for_user(result_user, score, statistics)
         end
 
@@ -69,7 +67,7 @@ class StatisticsCalculator
             statistics << single_user
         end
 
-        def claculate_score(count)
+        def calculate_score(count)
             if count > Score::A
                 return 'A'
             elsif count > Score::B
