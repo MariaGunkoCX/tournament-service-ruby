@@ -24,17 +24,12 @@ class TournamentsController < ApplicationController
   end
 
   def show
-    begin
-      tournament = Tournament.find_by(id: params[:id])
-      if tournament.blank?
-        render json: { error: "Tournament Not Found" }, status: :not_found
-        return
-      end
-      render json: tournament, serializer: TournamentSerializer     
-    rescue StandardError => e
-      Rails.logger.error("Error Getting Tournament Information, with error: #{e.message}")
-      render json: { error: "Internal Server Error" }, status: :internal_server_error
+    tournament = Tournament.find_by(id: params[:id])
+    if tournament.blank?
+      render json: { error: "Tournament Not Found" }, status: :not_found
+      return
     end
+    render json: tournament, serializer: TournamentSerializer     
   end
 
   def statistics
