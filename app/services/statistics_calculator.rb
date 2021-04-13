@@ -32,7 +32,7 @@ class StatisticsCalculator
             for index in 1..10 do
                 single_question = {
                     question: index.to_s,
-                    percentage: (questions[index-1]/results_length*100).to_s + "%"
+                    percentage: ((questions[index-1].to_f/results_length*100).to_i).to_s + "%"
                 }
                 statistics << single_question
             end
@@ -47,7 +47,7 @@ class StatisticsCalculator
                     count += 1
                 end
             end
-            score = claculate_score(count*10)
+            score = claculate_score(count.to_f/10*100)
             set_final_score_for_user(result_user, score, statistics)
         end
 
