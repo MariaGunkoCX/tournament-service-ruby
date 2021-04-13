@@ -44,19 +44,18 @@ class TournamentsController < ApplicationController
   end
 
   def success
-      begin
-        tournament = Tournament.find_by(id: params[:id])
-        if tournament.blank?
-          render json: { error: "Tournament Not Found" }, status: :not_found
-          return
-        end
-        statistics = StatisticsCalculator.success_per_question(tournament.results)
-        render json: statistics, status: :ok 
-      rescue StandardError => e
-        Rails.logger.error("Error Getting Success Per Question Statistics, with error: #{e.message}")
-        render json: { error: "Internal Server Error" }, status: :internal_server_error
+    begin
+      tournament = Tournament.includes(:results).find_by(id: params[:id])
+      if tournament.blank?
+        render json: { error: "Tournament Not Found" }, status: :not_found
+        return
       end
-    # end
+      statistics = StatisticsCalculator.success_per_question(tournament.results)
+      render json: statistics, status: :ok 
+    rescue StandardError => e
+      Rails.logger.error("Error Getting Success Per Question Statistics, with error: #{e.message}")
+      render json: { error: "Internal Server Error" }, status: :internal_server_error
+    end
   end
 
 end
