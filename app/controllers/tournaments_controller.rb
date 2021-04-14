@@ -22,20 +22,31 @@ class TournamentsController < ApplicationController
 
   def show
     tournament = Tournament.find_by(id: params[:id])
-    if tournament_not_found(tournament)
+    if tournament_found(tournament)
       render json: tournament, serializer: TournamentSerializer   
     end  
   end
 
   def statistics
+    tournament = Tournament.includes(:results).find_by(id: params[:id])
+    if tournament_found(tournament)
+      succes_statistics = StatisticsCalculator.success_per_question(tournament.results)
+      scores_statistics = StatisticsCalculator.user_score(tournament.results)
+      render json: { success: succes_statistics, scores: scores_statistics }, status: :ok 
+    end
   end 
 
   def scores
+    tournament = Tournament.includes(:results).find_by(id: params[:id])
+    if tournament_found(tournament)
+      statistics = StatisticsCalculator.user_score(tournament.results)
+      render json: statistics, status: :ok 
+    end
   end
 
   def success
     tournament = Tournament.includes(:results).find_by(id: params[:id])
-    if tournament_not_found(tournament)
+    if tournament_found(tournament)
       statistics = StatisticsCalculator.success_per_question(tournament.results)
       render json: statistics, status: :ok 
     end
