@@ -3,11 +3,11 @@ class ApplicationController < ActionController::Base
 
   rescue_from StandardError do |exception|
     Rails.logger.error("Error: #{exception.message}")
-    render json: { error: "Internal Server Error" }, status: :internal_server_error
+    render json: { error: 'Internal Server Error' }, status: :internal_server_error
   end
 
   rescue_from ActiveRecord::RecordInvalid do |invalid|
-    render json: {error: "Failed to create a new record, with error: #{invalid.record.errors.full_messages} - #{invalid.record.errors.details}"}, status: :internal_server_error
+    render json: { error: "Failed to create a new record, with error:
+    #{invalid.record.errors.full_messages} - #{invalid.record.errors.details}" }, status: :internal_server_error
   end
-
 end
