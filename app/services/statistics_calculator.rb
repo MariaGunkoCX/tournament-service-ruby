@@ -16,7 +16,7 @@ class StatisticsCalculator
         def success_per_question(results)
             questions = Array.new(Constants::NUMBER_OF_QUESTIONS, 0)  
             results.each {|result| count_correct_answers_in_result(result.answers, questions)}
-            questions.map.with_index {|question, index| claculate_correct_answers_percentage(question, index, results.length())}
+            questions.map.with_index {|question, index| calculate_correct_answers_percentage(question, index, results.length())}
         end
 
         def user_score(results)
@@ -33,7 +33,7 @@ class StatisticsCalculator
              end
         end
 
-        def claculate_correct_answers_percentage(question, index, results_length)
+        def calculate_correct_answers_percentage(question, index, results_length)
             single_question = {
                 question: (index.to_i+1).to_s,
                 percentage: ((question.to_f/results_length*Constants::FULL_PERCENTAGE).to_i).to_s + "%"
