@@ -23,9 +23,7 @@ class StatisticsCalculator
         end
 
         def user_score(results)
-            statistics = Array.new;
-            results.each {|result| count_correct_answers_for_user(result.answers, result.user, statistics)}
-            statistics
+            results.map {|result| count_correct_answers_for_user(result.answers, result.user)}
         end
 
         private 
@@ -48,23 +46,18 @@ class StatisticsCalculator
             end
         end
 
-        def count_correct_answers_for_user(result_answers, result_user, statistics)
+        def count_correct_answers_for_user(result_answers, result_user)
             count = 0
             for index in 1..Constants::NUMBER_OF_QUESTIONS do
                 if (result_answers[index.to_s])
                     count += 1
                 end
             end
-            score = calculate_score(count.to_f/Constants::NUMBER_OF_QUESTIONS*Constants::FULL_PERCENTAGE)
-            set_final_score_for_user(result_user, score, statistics)
-        end
-
-        def set_final_score_for_user(user, score, statistics)
             single_user = {
-                user: user.email,
-                score: score              
+                user: result_user.email,
+                score: calculate_score(count.to_f/Constants::NUMBER_OF_QUESTIONS*Constants::FULL_PERCENTAGE)              
             }
-            statistics << single_user
+            single_user
         end
 
         def calculate_score(count)
