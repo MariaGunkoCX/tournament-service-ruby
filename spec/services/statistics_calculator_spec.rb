@@ -10,27 +10,29 @@ describe 'statistics_calculator' do
   end
 
   describe 'calculates success per question statistics' do
-    let(:success) {[{ percentage: '100%', question: '1' }, { percentage: '100%', question: '2' }, { percentage: '100%', question: '3' }, { percentage: '100%', question: '4' }, { percentage: '100%', question: '5' },
-    { percentage: '50%', question: '6' }, { percentage: '100%', question: '7' }, { percentage: '100%', question: '8' }, { percentage: '100%', question: '9' }, { percentage: '50%', question: '10' }]}
+    let(:success) { [{ percentage: '100%', question: '1' }, { percentage: '100%', question: '2' },
+                     { percentage: '100%', question: '3' }, { percentage: '100%', question: '4' },
+                     { percentage: '100%', question: '5' }, { percentage: '50%', question: '6' },
+                     { percentage: '100%', question: '7' }, { percentage: '100%', question: '8' },
+                     { percentage: '100%', question: '9' }, { percentage: '50%', question: '10' }]
+    }
 
-    it 'context input is valid' do
-      response = StatisticsCalculator.success_per_question([@result, @result_second])
-      expect(response).to eq(success)
-    end
-
-    it 'context input is invalid' do
+    context 'input is valid' do
+      it 'successes to calculate' do
+        response = StatisticsCalculator.success_per_question([@result, @result_second])
+        expect(response).to eq(success)
+      end
     end
   end
 
   describe 'calculates score per user statistics' do
     let(:scores) { [{ score: 'B', user: 'maria.gunko@checkmarx.com' }, { score: 'A', user: 'eti.noked@checkmarx.com' }] }
 
-    it 'context input is valid' do
-      response = StatisticsCalculator.user_score([@result, @result_second])
-      expect(response).to eq(scores)
-    end
-
-    it 'context input is invalid' do
+    context 'input is valid' do
+      it 'successes to calculate' do
+        response = StatisticsCalculator.user_score([@result, @result_second])
+        expect(response).to eq(scores)
+      end
     end
   end
 end
