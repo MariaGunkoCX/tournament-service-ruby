@@ -2,7 +2,7 @@ describe 'tournaments_controller' do
   it 'saves tournament results' do
   end
 
-  it 'gett tournament results' do
+  it 'get tournament results' do
   end
 
   it 'fetches success per question' do
