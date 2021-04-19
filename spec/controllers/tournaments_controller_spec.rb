@@ -5,8 +5,38 @@ describe TournamentsController do
   let(:tournament) { create(:tournament) }
   let(:result) { create(:result, user: user, tournament: tournament, answers: { '1': true, '2': true, '3': true, '4': true, '5': true, '6': false, '7': true, '8': true, '9': true, '10': false }) }
 
+  let(:input) {
+    {
+      'company_name': 'WeWork',
+      'start_date': '2020-12-03T09:35:35+00:00',
+      'end_date': '2020-12-03T12:35:35+00:00',
+      'results': [
+          {
+              'firstName': 'Eti',
+              'lastName': 'Noked',
+              'email': 'eti.noked@checkmarx.com',
+              'answers': {
+                  '1': true,
+                  '2': true,
+                  '3': true,
+                  '4': true,
+                  '5': true,
+                  '6': true,
+                  '7': true,
+                  '8': true,
+                  '9': true,
+                  '10': true
+              }
+          }
+      ]
+    }
+  }
+
   context 'input is valid' do
     it 'saves tournament results' do
+      get :create, params: input
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body)).to eq({ 'success' => 'New Tournament Created' })
     end
 
     it 'get tournament results' do
