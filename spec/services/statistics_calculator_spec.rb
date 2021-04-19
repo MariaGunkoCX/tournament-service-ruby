@@ -29,7 +29,7 @@ describe 'statistics_calculator' do
     let(:scores) { [{ score: 'B', user: 'maria.gunko@checkmarx.com' }, { score: 'A', user: 'eti.noked@checkmarx.com' }] }
 
     context 'input is valid' do
-      it 'successes to calculate' do
+      it 'scores to calculate' do
         response = StatisticsCalculator.user_score([@result, @result_second])
         expect(response).to eq(scores)
       end
