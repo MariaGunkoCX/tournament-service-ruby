@@ -5,7 +5,7 @@ describe 'statistics_calculator' do
     @user = build(:user)
     @result = build(:result, user: @user, answers: { '1': true, '2': true, '3': true, '4': true, '5': true, '6': false, '7': true, '8': true, '9': true, '10': false })
 
-    @user_second = build(:user, email: 'eti.noked@checkmarx.com')
+    @user_second = build(:user)
     @result_second = build(:result, user: @user_second, answers: { '1': true, '2': true, '3': true, '4': true, '5': true, '6': true, '7': true, '8': true, '9': true, '10': true })
   end
 
