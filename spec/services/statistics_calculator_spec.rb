@@ -26,7 +26,7 @@ describe 'statistics_calculator' do
   end
 
   describe 'calculates score per user statistics' do
-    let(:scores) { [{ score: 'B', user: 'maria.gunko@checkmarx.com' }, { score: 'A', user: 'eti.noked@checkmarx.com' }] }
+    let(:scores) { [{ score: 'B', user: @user.email }, { score: 'A', user: @user_second.email }] }
 
     context 'input is valid' do
       it 'scores to calculate' do
